@@ -7,11 +7,11 @@ while k > 0:
     time += 1
     # 벨트이동
     a = belt.pop()
-    belt = [a] + belt
+    belt.insert(0, a)
 
     # 로봇내리기
-    if belt[n-1][1] == 1:
-        belt[n-1][1] = 0
+    belt[n-1][1] = 0
+
     # 로봇이동
     for i in range(n-2, 0, -1):
 
