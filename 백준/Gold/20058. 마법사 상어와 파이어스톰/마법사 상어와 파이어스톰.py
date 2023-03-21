@@ -8,26 +8,6 @@ dy = [0, 1, 0, -1]
 Ls = list(map(int, input().split()))
 
 
-# def turn(L):
-#     new = [[0]*(2**n) for _ in range(2**n)]
-#     # 시작점
-#     for i in range(0, 2**n, 2**L):
-#         for j in range(0, 2**n, 2**L):
-#             # 90도 돌리기
-#             tmp = [graph[k][j:j+2**L] for k in range(i, i+2**L)]
-#             new_tmp = [[0]*2**L for _ in range(2**L)]
-#             for x in range(2**L):
-#                 for y in range(2**L):
-#                     new_tmp[y][2**L-x-1] = tmp[x][y]
-
-#             for x in range(2**L):
-#                 for y in range(2**L):
-#                     new[i+x][j+y] = new_tmp[x][y]
-
-#     for i in range(2**n):
-#         graph[i] = new[i][:]
-
-
 def turn(L):
     new = [[0]*(2**n) for _ in range(2**n)]
     # 시작점
@@ -38,8 +18,9 @@ def turn(L):
                 for y in range(2**L):
                     new[i+y][j+2**L - x - 1] = graph[i+x][j+y]
 
-    for i in range(2**n):
-        graph[i] = new[i][:]
+    # for i in range(2**n):
+    #     graph[i] = new[i][:]
+    return new
 
 
 def melt():
@@ -67,7 +48,7 @@ def is_valid(nx, ny):
 
 # 돌리고 녹이기 시작
 for L in Ls:
-    turn(L)
+    graph = turn(L)
     melt()
 
 answer = [0, 0]
