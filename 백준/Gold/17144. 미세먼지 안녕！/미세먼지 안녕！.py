@@ -1,15 +1,13 @@
 import sys
 input = sys.stdin.readline
-
 r, c, t = map(int, input().split())
 graph = [list(map(int, input().split())) for _ in range(r)]
 
 
 def find():
     for i in range(r):
-        for j in range(c):
-            if graph[i][j] == -1:
-                return (i, j), (i+1, j)
+        if graph[i][0] == -1:
+            return (i, 0), (i+1, 0)
 
 
 clean1, clean2 = find()
@@ -22,11 +20,45 @@ def is_valid(nx, ny):
     return 0 <= nx <= r-1 and 0 <= ny <= c-1
 
 
+def up_move(new_graph):
+    x, y, dir = clean1[0], 1, 1
+    previous = 0
+    while True:
+        nx = x + dx[dir]
+        ny = y + dy[dir]
+        if x == clean1[0] and y == 0:
+            break
+
+        if not is_valid(nx, ny):
+            dir = (dir-1) % 4
+            continue
+
+        new_graph[x][y], previous = previous, new_graph[x][y]
+        x, y = nx, ny
+
+
+def down_move(new_graph):
+    x, y, dir = clean2[0], 1, 1
+    previous = 0
+    while True:
+        nx = x + dx[dir]
+        ny = y + dy[dir]
+        if x == clean2[0] and y == 0:
+            break
+
+        if not is_valid(nx, ny):
+            dir = (dir+1) % 4
+            continue
+
+        new_graph[x][y], previous = previous, new_graph[x][y]
+        x, y = nx, ny
+
+
 for _ in range(t):
     new_graph = [[0]*c for _ in range(r)]
     for x in range(r):
         for y in range(c):
-            if 5 > graph[x][y] > 0:
+            if 5 > graph[x][y]:
                 new_graph[x][y] += graph[x][y]
             elif graph[x][y] >= 5:
                 mount = graph[x][y]//5
@@ -37,37 +69,9 @@ for _ in range(t):
                         new_graph[nx][ny] += mount
                         graph[x][y] -= mount
                 new_graph[x][y] += graph[x][y]
-
-    graph = [[0]*c for _ in range(r)]
-    a, d = clean1[0], clean2[0]
-    for x in range(r):
-        for y in range(c):
-            if x <= a:
-                if x == 0 and 1 <= y <= c-1:  # 왼쪽으로
-                    graph[x][y-1] = new_graph[x][y]
-                elif y == 0 and 0 <= x <= a-1:  # 아래로
-                    graph[x+1][y] = new_graph[x][y]
-                elif x == a and 0 <= y <= c-2:  # 오른쪽으로
-                    graph[x][y+1] = new_graph[x][y]
-                elif y == c-1 and 1 <= x <= a:  # 위로
-                    graph[x-1][y] = new_graph[x][y]
-                else:
-                    graph[x][y] = new_graph[x][y]
-
-            else:
-                if x == r-1 and 1 <= y <= c-1:  # 왼쪽으로
-                    graph[x][y-1] = new_graph[x][y]
-                elif y == c-1 and d <= x <= r-2:  # 아래로
-                    graph[x+1][y] = new_graph[x][y]
-
-                elif x == d and 0 <= y <= c-2:  # 오른쪽으로
-                    graph[x][y+1] = new_graph[x][y]
-                elif y == 0 and d+1 <= x <= r-1:  # 위로
-                    graph[x-1][y] = new_graph[x][y]
-                else:
-                    graph[x][y] = new_graph[x][y]
-    graph[clean1[0]][clean1[1]] = -1
-    graph[clean2[0]][clean2[1]] = -1
+    up_move(new_graph)
+    down_move(new_graph)
+    graph = new_graph
 
 ans = 0
 for i in graph:
