@@ -3,16 +3,9 @@ input = sys.stdin.readline
 
 n, m = map(int, input().split())
 graph = [list(map(int, input().split())) for _ in range(n)]
-pos = []
 zeros = 0
 answer = 100
-
-for i in range(n):
-    for j in range(m):
-        if 6 > graph[i][j] > 0:
-            pos.append((i, j))
-        elif graph[i][j] == 0:
-            zeros += 1
+all_cctv = []
 
 dx = [-1, 0, 1, 0]
 dy = [0, 1, 0, -1]
@@ -22,123 +15,52 @@ def is_valid(nx, ny):
     return 0 <= nx <= n-1 and 0 <= ny <= m-1
 
 
-def beam(x, y, dir):
-    cnt = []
-    while True:
-        x += dx[dir]
-        y += dy[dir]
-        if is_valid(x, y):
-            if graph[x][y] == 0:
-                cnt.append((x, y))
-            elif graph[x][y] == 6:
+def move(x, y, dir):
+    cnt = set()
+    for d in dir:
+        nx = x
+        ny = y
+        while True:
+            nx += dx[d]
+            ny += dy[d]
+            if is_valid(nx, ny):
+                if graph[nx][ny] == 0:
+                    cnt.add((nx, ny))
+                elif graph[nx][ny] == 6:
+                    break
+            else:
                 break
-        else:
-            break
     return cnt
 
 
-def dfs(cnt, index):
+for i in range(n):
+    for j in range(m):
+        if graph[i][j] == 0:
+            zeros += 1
+        elif graph[i][j] == 1:
+            all_cctv.append([move(i, j, [0]), move(i, j, [1]),
+                            move(i, j, [2]), move(i, j, [3])])
+        elif graph[i][j] == 2:
+            all_cctv.append([move(i, j, [0, 2]), move(i, j, [1, 3])])
+        elif graph[i][j] == 3:
+            all_cctv.append([move(i, j, [0, 1]), move(
+                i, j, [1, 2]), move(i, j, [2, 3]), move(i, j, [3, 0])])
+        elif graph[i][j] == 4:
+            all_cctv.append([move(i, j, [0, 1, 2]), move(
+                i, j, [1, 2, 3]), move(i, j, [2, 3, 0]), move(i, j, [3, 0, 1])])
+        elif graph[i][j] == 5:
+            all_cctv.append([move(i, j, [0, 1, 2, 3])])
+
+
+def dfs(index, union):
     global answer
-    # dfs 탈출조건
-    if index == len(pos) or cnt == 0:
-        answer = min(answer, cnt)
-        if answer == 0:
-            print(0)
-            sys.exit()
-        # print(answer)
-        # print(graph)
+    if index == len(all_cctv):
+        answer = min(answer, zeros - len(union))
         return
 
-    x, y = pos[index]
-    # cctv 번호에 맞는 for 문
-    if graph[x][y] == 1:
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if is_valid(nx, ny):
-                c = beam(x, y, i)
-                for a, b in c:
-                    graph[a][b] = "#"
-                dfs(cnt-len(c), index + 1)
-                for a, b in c:
-                    graph[a][b] = 0
-
-    if graph[x][y] == 2:
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if is_valid(nx, ny):
-                c = beam(x, y, i)
-                cc = beam(x, y, (i+2) % 4)
-                for a, b in c:
-                    graph[a][b] = "#"
-                for a, b in cc:
-                    graph[a][b] = "#"
-                dfs(cnt-len(c)-len(cc), index + 1)
-                for a, b in c:
-                    graph[a][b] = 0
-                for a, b in cc:
-                    graph[a][b] = 0
-    if graph[x][y] == 3:
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if is_valid(nx, ny):
-                c = beam(x, y, i)
-                cc = beam(x, y, (i+1) % 4)
-                for a, b in c:
-                    graph[a][b] = "#"
-                for a, b in cc:
-                    graph[a][b] = "#"
-                dfs(cnt-len(c)-len(cc), index + 1)
-                for a, b in c:
-                    graph[a][b] = 0
-                for a, b in cc:
-                    graph[a][b] = 0
-    if graph[x][y] == 4:
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if is_valid(nx, ny):
-                c = beam(x, y, i)
-                cc = beam(x, y, (i+1) % 4)
-                ccc = beam(x, y, (i-1) % 4)
-                for a, b in c:
-                    graph[a][b] = "#"
-                for a, b in cc:
-                    graph[a][b] = "#"
-                for a, b in ccc:
-                    graph[a][b] = "#"
-                dfs(cnt-len(c)-len(cc)-len(ccc), index + 1)
-                for a, b in c:
-                    graph[a][b] = 0
-                for a, b in cc:
-                    graph[a][b] = 0
-                for a, b in ccc:
-                    graph[a][b] = 0
-    if graph[x][y] == 5:
-        c = beam(x, y, 0)
-        cc = beam(x, y, (0+1) % 4)
-        ccc = beam(x, y, (0+2) % 4)
-        cccc = beam(x, y, (0+3) % 4)
-        for a, b in c:
-            graph[a][b] = "#"
-        for a, b in cc:
-            graph[a][b] = "#"
-        for a, b in ccc:
-            graph[a][b] = "#"
-        for a, b in cccc:
-            graph[a][b] = "#"
-        dfs(cnt-len(c)-len(cc)-len(ccc)-len(cccc), index + 1)
-        for a, b in c:
-            graph[a][b] = 0
-        for a, b in cc:
-            graph[a][b] = 0
-        for a, b in ccc:
-            graph[a][b] = 0
-        for a, b in cccc:
-            graph[a][b] = 0
+    for views in all_cctv[index]:
+        dfs(index + 1, union | views)
 
 
-dfs(zeros, 0)
+dfs(0, set())
 print(answer)
