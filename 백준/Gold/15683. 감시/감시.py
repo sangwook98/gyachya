@@ -56,6 +56,9 @@ def dfs(index, union):
     global answer
     if index == len(all_cctv):
         answer = min(answer, zeros - len(union))
+        if answer == 0:
+            print(0)
+            exit()
         return
 
     for views in all_cctv[index]:
