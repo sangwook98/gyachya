@@ -1,4 +1,6 @@
 from itertools import combinations
+import sys
+input = sys.stdin.readline
 n, m, h = map(int, input().split())
 
 graph = [[0]*n for _ in range(h)]
