@@ -16,9 +16,7 @@ def is_valid(nx, ny):
 
 
 for x in range(1, n-1):
-    # for x in range(1, 2):
-    for y in range(1, n+1):
-        # print('x,y', x, y)
+    for y in range(2, n):
         candidate = []
         # d_1 찾기
         d_1 = 1
@@ -50,10 +48,9 @@ for x in range(1, n-1):
 
                 if is_valid(nx, ny) and is_valid(nnx, nny) and is_valid(nnnx, nnny):
                     candidate.append((a, b))
-        # print(candidate)
         # 가능한 d_1, d_2로 구역들 인구수 구하기
+
         for a, b in candidate:
-            # print(a, b)
             points = [0]*6
             for c in range(1, x):
                 points[1] += row_sum[c][y]
@@ -63,10 +60,9 @@ for x in range(1, n-1):
             points[1] += row_sum[x][y-1]
             points[2] += row_sum[x][n] - row_sum[x][y]
 
-            # print('points', points)
             right_x, right_y = x, y
             left_x, left_y = x, y
-
+                
             for k in range(1, a+b+1):
                 if k <= b:
                     right_x += dx[0]
@@ -96,28 +92,13 @@ for x in range(1, n-1):
 
                 points[5] += row_sum[right_x][right_y] - \
                     row_sum[left_x][left_y-1]
-                # print('points', points)
 
             for c in range(left_x+1, n+1):
                 points[3] += row_sum[c][left_y-1]
                 points[4] += row_sum[c][n] - row_sum[c][left_y-1]
-                # print('points', points)
 
             answer = min(answer, max(points[1:]) - min(points[1:]))
-            # print('answer, now', answer, max(points[1:]) - min(points[1:]))
             if answer == 0:
                 print(0)
                 exit()
 print(answer)
-# 4
-# 1 2 3 4
-# 5 6 7 8
-# 9 10 11 12
-# 13 14 15 16
-
-# 5
-# 1 2 3 4 5
-# 6 7 8 9 10
-# 11 12 13 14 15
-# 16 17 18 19 20
-# 21 22 23 24 25
