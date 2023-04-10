@@ -1,17 +1,18 @@
 import sys
 input = sys.stdin.readline
-
 n = int(input())
-distance = []
+towns = []
 human = 0
-for i in range(1, n+1):
+for _ in range(n):
     a, b = map(int, input().split())
-    distance.append([a, b])
     human += b
-distance.sort()
+    towns.append((a, b))
+towns.sort()
+
+mid = human/2
 cnt = 0
 for i in range(n):
-    cnt += distance[i][1]
-    if cnt >= human/2:
-        print(distance[i][0])
+    cnt += towns[i][1]
+    if cnt >= mid:
+        print(towns[i][0])
         break
