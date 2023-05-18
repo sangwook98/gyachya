@@ -12,15 +12,10 @@ int main()
     int arr[10] = {};
 
     for (int i = 0; i < s.size(); i++)
-    {
-        int d = s[i] - '0';
-        arr[d]++;
-    }
+        arr[s[i] - '0']++;
 
     for (int j = 0; j < 10; j++)
-    {
         cout << arr[j] << "\n";
-    }
 
     return 0;
 }
