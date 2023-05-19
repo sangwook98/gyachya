@@ -1,22 +1,18 @@
-#include <iostream>
+#include <cstdio>
 #include <vector>
 #include <algorithm>
 #include <numeric>
 
 using namespace std;
-int arr[42], i, j, a, b;
+int arr[42], x, ans;
 int main()
 {
-    for (; i < 10; i++)
+    while (scanf("%d", &x) > 0)
     {
-        cin >> a;
-        arr[a % 42]++;
+        if (arr[x % 42] == 0)
+            ans++;
+        arr[x % 42]++;
     }
-    for (; j < 42; j++)
-    {
-        if (arr[j] != 0)
-            b++;
-    }
-    cout << b;
+    printf("%d", ans);
     return 0;
 }
