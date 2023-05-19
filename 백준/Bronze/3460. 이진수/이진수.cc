@@ -7,30 +7,16 @@
 
 using namespace std;
 int t, n;
-stack<int> s;
 int main()
 {
     scanf("%d", &t);
     while (t--)
     {
-        int i = 0;
         scanf("%d", &n);
-        while (pow(2, i) <= n)
-            i++;
-        i--;
-        while (n)
+        for (int i = 0; n > 0; i++, n /= 2)
         {
-            if (n >= pow(2, i))
-            {
-                n -= pow(2, i);
-                s.push(i);
-            }
-            i--;
-        }
-        while (!s.empty())
-        {
-            printf("%d ", s.top());
-            s.pop();
+            if (n % 2 == 1)
+                printf("%d ", i);
         }
     }
 
