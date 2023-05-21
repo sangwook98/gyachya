@@ -4,23 +4,17 @@
 #include <numeric>
 
 using namespace std;
-int n, ans, v, i, tmp;
-vector<int> vec;
+int n, t;
+int d[201];
 int main()
 {
     scanf("%d", &n);
-    for (; i < n; i++)
+    while (n--)
     {
-        scanf("%d", &tmp);
-        vec.push_back(tmp);
+        scanf("%d", &t);
+        d[t + 100]++;
     }
-    scanf("%d", &v);
-
-    for (int i = 0; i < vec.size(); i++)
-    {
-        if (v == vec[i])
-            ans++;
-    }
-    printf("%d", ans);
+    scanf("%d", &t);
+    printf("%d", d[t + 100]);
     return 0;
 }
