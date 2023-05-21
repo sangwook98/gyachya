@@ -18,22 +18,10 @@ int main()
     while (r--)
         cin >> t, boat[t]++;
 
-    for (int i = 1; i <= n; i++)
+    for (int i = 1; i < n; i++)
     {
-        if (boat[i] == 2)
-        {
-            if (i == 1 && boat[i + 1] == 0)
-                boat[i]--, boat[i + 1]++;
-            else if (i == n && boat[i - 1] == 0)
-                boat[i]--, boat[i - 1]++;
-            else
-            {
-                if (boat[i - 1] == 0)
-                    boat[i]--, boat[i - 1]++;
-                else if (boat[i + 1] == 0)
-                    boat[i]--, boat[i + 1]++;
-            }
-        }
+        if ((boat[i] == 2 && boat[i + 1] == 0) || (boat[i] == 0 && boat[i + 1] == 2))
+            boat[i] = 1, boat[i + 1] = 1;
     }
     for (int i = 1; i <= n; i++)
     {
