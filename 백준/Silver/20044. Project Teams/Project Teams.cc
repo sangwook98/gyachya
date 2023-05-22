@@ -14,15 +14,11 @@ int main()
     cin >> n;
     int tmp = 2 * n;
     while (tmp--)
-    {
         cin >> arr[tmp];
-    }
+
     sort(arr, arr + 2 * n);
 
     for (int i = 0; i < n; i++)
-    {
         ans = min(ans, arr[i] + arr[2 * n - i - 1]);
-    }
     cout << ans;
-    return 0;
 }
