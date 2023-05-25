@@ -2,14 +2,13 @@
 #include <vector>
 #include <algorithm>
 #include <numeric>
-#include <string.h>
 
 using namespace std;
 
 int check(string s, string b)
 {
-    int cnt = 0, i = 1;
-    for (; i < s.size() - 1; i++)
+    int cnt = 0, i = 1, n = s.size();
+    for (; i < n - 1; i++)
     {
         if (s[i - 1] != b[i - 1])
         {
@@ -27,7 +26,7 @@ int check(string s, string b)
         cnt++;
     }
 
-    if (s != b)
+    if (s[n - 1] != b[n - 1])
         cnt = 100001;
 
     return cnt;
