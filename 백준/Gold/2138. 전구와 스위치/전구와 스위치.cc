@@ -1,0 +1,53 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <numeric>
+#include <string.h>
+
+using namespace std;
+
+int check(string s, string b)
+{
+    int cnt = 0, i = 1;
+    for (; i < s.size() - 1; i++)
+    {
+        if (s[i - 1] != b[i - 1])
+        {
+            s[i - 1] = (s[i - 1] - '0' + ('1' - '0')) % 2 + '0';
+            s[i] = (s[i] - '0' + ('1' - '0')) % 2 + '0';
+            s[i + 1] = (s[i + 1] - '0' + ('1' - '0')) % 2 + '0';
+            cnt++;
+        }
+    }
+
+    if (s[i - 1] != b[i - 1])
+    {
+        s[i - 1] = (s[i - 1] - '0' + ('1' - '0')) % 2 + '0';
+        s[i] = (s[i] - '0' + ('1' - '0')) % 2 + '0';
+        cnt++;
+    }
+
+    if (s != b)
+        cnt = 100001;
+
+    return cnt;
+}
+
+int n, answer;
+string s, b;
+int main()
+{
+    cin.tie(NULL);
+    ios_base::sync_with_stdio(false);
+
+    cin >> n >> s >> b;
+
+    answer = check(s, b);
+
+    s[0] = (s[0] - '0' + ('1' - '0')) % 2 + '0';
+    s[1] = (s[1] - '0' + ('1' - '0')) % 2 + '0';
+    answer = min(answer, check(s, b) + 1);
+
+    answer = answer == 100001 ? -1 : answer;
+    cout << answer;
+}
