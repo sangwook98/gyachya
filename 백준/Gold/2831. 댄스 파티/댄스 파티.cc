@@ -1,52 +1,48 @@
-#include <algorithm>
 #include <iostream>
 #include <vector>
+#include <deque>
+#include <algorithm>
+
 using namespace std;
-#define FIO                                                                    \
-  ios_base::sync_with_stdio(false);                                            \
-  cin.tie(NULL);                                                               \
-  cout.tie(NULL);
 
-int n, t, answer;
-vector<int> t_m, s_m, t_w, s_w;
 int main() {
-  cin >> n;
-  for (int i = 0; i < n; i++) {
-    cin >> t;
-    if (t < 0)
-      s_m.push_back(-t);
-    else
-      t_m.push_back(t);
-  }
-  for (int i = 0; i < n; i++) {
-    cin >> t;
-    if (t < 0)
-      s_w.push_back(-t);
-    else
-      t_w.push_back(t);
-  }
+	cin.tie(0);
+	cout.tie(0);
+	ios::sync_with_stdio(false);
+	int n, x, j = 0, cnt = 0;
+	cin >> n;
+	vector<int> mkp;
+	vector<int> mkn;
+	vector<int> wkp;
+	vector<int> wkn;
+	for (int i = 0; i != n; i++) {
+		cin >> x;
+		if (x > 0) mkp.push_back(x);
+		else mkn.push_back(-x);
+	}
+	for (int i = 0; i != n; i++) {
+		cin >> x;
+		if (x > 0) wkp.push_back(x);
+		else wkn.push_back(-x);
+	}
+	sort(mkp.begin(), mkp.end(), greater<int>());
+	sort(mkn.begin(), mkn.end(), greater<int>());
+	sort(wkp.begin(), wkp.end(), greater<int>());
+	sort(wkn.begin(), wkn.end(), greater<int>());
 
-  sort(s_m.begin(), s_m.end());
-  sort(t_m.begin(), t_m.end());
-  sort(s_w.begin(), s_w.end());
-  sort(t_w.begin(), t_w.end());
-
-  int a, b;
-  while (!s_m.empty() && !t_w.empty()) {
-    a = s_m.back(), s_m.pop_back();
-    b = t_w.back(), t_w.pop_back();
-    if (a > b)
-      answer++;
-    else
-      s_m.push_back(a);
-  }
-  while (!s_w.empty() && !t_m.empty()) {
-    a = t_m.back(), t_m.pop_back();
-    b = s_w.back(), s_w.pop_back();
-    if (a < b)
-      answer++;
-    else
-      s_w.push_back(b);
-  }
-  cout << answer;
+	for (int i = 0; i != mkp.size() && j != wkn.size(); i++) {
+		if (mkp[i] < wkn[j]) {
+			cnt++;
+			j++;
+		}
+	}
+	j = 0;
+	for (int i = 0; i != wkp.size() && j != mkn.size(); i++) {
+		if (wkp[i] < mkn[j]) {
+			cnt++;
+			j++;
+		}
+	}
+	cout << cnt;
+	return 0;
 }
