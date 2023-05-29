@@ -1,35 +1,47 @@
-#include <bits/stdc++.h>
+#include <algorithm>
+#include <deque>
+#include <iostream>
+#include <vector>
 using namespace std;
+#define FIO                                                                    \
+  ios_base::sync_with_stdio(false);                                            \
+  cin.tie(NULL);                                                               \
+  cout.tie(NULL);
 typedef long long ll;
 
-int N, len, damage, C;
-ll arr[3000001];
-ll psum[3000001];
+int l, m_l, m_k, c, t, one, zero;
+int main() {
+  FIO;
+  cin >> l >> m_l >> m_k >> c;
 
-int main(void) {
-	ios::sync_with_stdio(false);
-	cin.tie(0);
-	cin >> N;
-	cin >> len >> damage;
-	cin >> C;
-	for (int i = 1; i <= N; i++) cin >> arr[i];
-	for (int i = 1; i <= N; i++) {
-		ll now = psum[i - 1] - psum[max(0, i - len)];
-		if (arr[i] <= now + damage) {
-			psum[i] = psum[i - 1] + damage;
-			continue;
-		}
-		else {
-			if (C) {
-				C--;
-				psum[i] = psum[i - 1];
-			}
-			else {
-				cout << "NO";
-				return 0;
-			}
-		}
-	}
-	cout << "YES";
-	return 0;
+  deque<int> dq, shot_dq(m_l - 1, 0);
+
+  for (int i = 0; i < l; i++) {
+    cin >> t, dq.push_back(t);
+  }
+  // for (int i = 0; i < m_l - 1; i++)
+  //   shot_dq.push_back(0);
+  zero = m_l - 1, one = 0;
+
+  while (!dq.empty()) {
+    int zombie = dq.front();
+
+    if (zombie <= one * m_k + m_k)
+      dq.pop_front(), shot_dq.push_back(1), one++;
+    else {
+      if (c) {
+        c--, dq.pop_front(), shot_dq.push_back(0), zero++;
+      } else
+        break;
+    }
+
+    if (shot_dq.front() == 1)
+      one--;
+    else
+      zero--;
+    shot_dq.pop_front();
+  }
+
+  string answer = dq.empty() ? "YES" : "NO";
+  cout << answer;
 }
