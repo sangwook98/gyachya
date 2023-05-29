@@ -15,18 +15,17 @@ int n, k;
 int main() {
   FIO;
   cin >> n >> k >> number;
-  dq.push_back(number[0] - '0');
+  answer.push_back(number[0]);
+
   for (int i = 1; i < n; i++) {
-    while (!dq.empty() && dq.back() < number[i] - '0' && k > 0) {
-      dq.pop_back(), k--;
+    while (!answer.empty() && answer.back() < number[i] && k > 0) {
+      answer.pop_back(), k--;
     }
 
-    dq.push_back(number[i] - '0');
+    answer.push_back(number[i]);
   }
-
   while (k--)
-    dq.pop_back();
+    answer.pop_back();
 
-  for (auto i : dq)
-    cout << i;
+  cout << answer;
 }
