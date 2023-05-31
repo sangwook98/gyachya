@@ -23,14 +23,11 @@ int dfs(int x, int y) {
   for (int i = 0; i < 3; i++) {
     int nx = x + dx[i];
     int ny = y + dy[i];
-    if (0 <= nx <= r - 1 && 0 <= ny <= c - 1) {
-      if (visited[nx][ny] == 0 && Map[nx][ny] == '.') {
-        visited[nx][ny] = 1;
-        if (dfs(nx, ny)) {
-          return 1;
-        }
-        Map[nx][ny] = 'x';
-        visited[nx][ny] = 0;
+    if (0 <= nx <= r - 1 && 0 <= ny <= c - 1 && Map[nx][ny] == '.') {
+
+      Map[nx][ny] = 'x';
+      if (dfs(nx, ny)) {
+        return 1;
       }
     }
   }
