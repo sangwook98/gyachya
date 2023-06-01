@@ -7,16 +7,13 @@ using namespace std;
 typedef long long ll;
 
 struct sel {
-  int dis, box, start;
+  int box, start, end;
 };
 int compare(const sel &a, const sel &b) {
-  if (a.dis == b.dis) {
-    if (a.box == b.box) {
-      return a.start < b.start;
-    } else
-      return a.box < b.box;
+  if (a.end == b.end) {
+    return a.start > b.start;
   } else
-    return a.dis < b.dis;
+    return a.end > b.end;
 }
 
 int n, c, m, a, b, d;
@@ -28,8 +25,7 @@ int main() {
   sel sv[m];
   sel s;
   for (int i = 0; i < m; ++i) {
-    cin >> a >> b >> d;
-    s.dis = b - a, s.box = d, s.start = a;
+    cin >> s.start >> s.end >> s.box;
     sv[i] = s;
   }
 
@@ -40,11 +36,11 @@ int main() {
 
   for (int i = 0; i < m; ++i) {
     int mini = 100000;
-    for (int j = sv[i].start; j < sv[i].start + sv[i].dis; ++j) {
+    for (int j = sv[i].start; j < sv[i].end; ++j) {
       mini = min({mini, c - arr[j], sv[i].box});
     }
     answer += mini;
-    for (int j = sv[i].start; j < sv[i].start + sv[i].dis; ++j) {
+    for (int j = sv[i].start; j < sv[i].end; ++j) {
       arr[j] += mini;
     }
     // for (int i = 0; i < 30; ++i)
