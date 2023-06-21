@@ -1,21 +1,25 @@
-#include <cstdio>
-#include <queue>
-#include <string>
+#include <iostream>
+
 using namespace std;
 
-int n, m, t, a, b;
-int dp[100001];
-int main() {
-  scanf("%d %d", &n, &m);
-  for (int i = 1; i <= n; ++i) {
-    scanf("%d", &t);
-    dp[i] = dp[i - 1] + t;
-  }
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
+    
+    int n,m;
+    cin >> n >> m;
 
-  for (int i = 0; i < m; ++i) {
-    scanf("%d %d", &a, &b);
-    printf("%d\n", dp[b] - dp[a - 1]);
-  }
+    int sum[100001]={};
 
-  return 0;
+    for(int i=1;i<=n;i++){
+        int tmp;
+        cin >> tmp;
+        sum[i]=sum[i-1]+tmp;
+    }
+
+    for(int i=0;i<m;i++){
+        int start, end;
+        cin >> start >> end;
+        cout << sum[end]-sum[start-1] << "\n";
+    }
 }
