@@ -17,11 +17,10 @@ int main() {
   for (int i = 3; i <= n; ++i) {
     dp[i] =
         max({dp[i - 1], dp[i - 3] + arr[i - 1] + arr[i], dp[i - 2] + arr[i]});
-    answer = max(answer, dp[i]);
   }
   // for (int i = 1; i <= n; ++i) {
   //   printf("%d ", dp[i]);
   // }
-  printf("%d", answer);
+  printf("%d", dp[n]);
   return 0;
 }
