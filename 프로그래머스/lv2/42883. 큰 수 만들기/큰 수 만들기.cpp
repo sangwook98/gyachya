@@ -6,32 +6,26 @@ using namespace std;
 
 string solution(string number, int k) {
     string answer = "";
-    
-    while(k && !number.empty()){
-        char a = number.front();
+    for(int i = 0;i<number.size();i++){
+        char a = number[i];
         
-        if(answer.empty()){
-             answer +=a;
-            number.erase(0,1);
-        }
-           
-        else{
+        while(!answer.empty() && k){
             char b = answer.back();
+            
             if(b < a){
                 answer.pop_back();
                 k--;
             }else{
-                answer.push_back(a);
-                number.erase(0,1);
+                break;
             }
-        }
             
+        }
+        answer.push_back(a);
+      
     }
-    while(k){
-        answer.pop_back();
-        k--;
-    }
+    while(k)
+        answer.pop_back(),k--;
     
-    answer += number;
+
     return answer;
 }
