@@ -1,20 +1,21 @@
 #include <vector>
 #include <iostream>
-#include <algorithm>
+
 using namespace std;
 
 vector<int> solution(vector<int> arr) 
 {
     vector<int> answer;
+    int i = 0;
+    int n = arr.size();
+    answer.push_back(arr[i++]);
     
-    arr.erase(unique(arr.begin(),arr.end()),arr.end());
-    
-    // answer.push_back(arr[0]);
-    // for(int i: arr){
-    //     if(answer.back() != i)
-    //         answer.push_back(i);
-    // }
-    
+    for(;i<n;i++){
+        if(answer.back() != arr[i]){
+            answer.push_back(arr[i]);
+        }
+            
+    }
 
-    return arr;
+    return answer;
 }
