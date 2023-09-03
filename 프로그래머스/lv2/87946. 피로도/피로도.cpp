@@ -1,31 +1,47 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+
 using namespace std;
 
-bool visited[8];
-int answer;
-int n;
 vector<vector<int>> dungeons;
+bool visited[9];
 
-void dfs(int life,int ans){
- 
-    answer = max(answer,ans);
+int n,answer;
 
-    for(int i = 0;i<n;i++){
+int compare(vector<int> a, vector<int> b){
+    if(a[0] == b[0]){
+        return a[1] < b[1];
+    }
+        
+    return a[0]>b[0];
+}
+
+
+void dfs(int life,int count){
+    if(count > answer)
+        answer = count;
+        
+    
+    for(int i=0;i<n;i++){
         if(!visited[i]){
-            if(dungeons[i][0] > life)
-                continue;
             visited[i] = true;
-            dfs(life-dungeons[i][1],ans+1);
-            visited[i] = false;
+            if(life >= dungeons[i][0]){
+                dfs(life - dungeons[i][1], count+1);
+            }
+            visited[i]= false;
         }
     }
+  
+    
+    
 }
 
 int solution(int k, vector<vector<int>> dungeons_) {
     dungeons = dungeons_;
     n = dungeons.size();
+    
     dfs(k,0);
+    
     return answer;
 }
