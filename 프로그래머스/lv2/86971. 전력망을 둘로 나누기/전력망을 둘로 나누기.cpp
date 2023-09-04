@@ -1,46 +1,43 @@
 #include <string>
 #include <vector>
 #include <queue>
-using namespace std;
 
-vector<int> v[101];
+using namespace std;
 bool visited[101];
+vector<int> edge[101];
 
 int bfs(int x){
+    int count = 0;
     queue<int> q;
     q.push(x);
-    int ans = 0;
     while(!q.empty()){
-        int now = q.front();
+        int a = q.front();
         q.pop();
-        ans++;
-        for(int a: v[now]){
-            if(!visited[a]){
-                visited[a] = true;
-                q.push(a);
+        count++;
+        for(auto i:edge[a]){
+            if(!visited[i]){
+                visited[i]=true;
+                q.push(i);
             }
         }
     }
-    return ans;
+    return count;
 }
 
-
 int solution(int n, vector<vector<int>> wires) {
-    int answer = 1000;
-    for(auto i: wires){
-        int a = i[0], b = i[1];
-        v[a].push_back(b);
-        v[b].push_back(a);
+    int answer = 100000;
+    for(auto i:wires){
+        edge[i[0]].push_back(i[1]);
+        edge[i[1]].push_back(i[0]);
     }
     
-    for(auto i:wires){
-        int a = i[0], b = i[1];
+    for(int i = 0;i<wires.size();i++){
         fill_n(visited,n+1,false);
-        visited[a]= true;
-        visited[b]= true;
-        int c = bfs(a);
-        int d = bfs(b);
-        answer = min(abs(d-c),answer);
+        visited[wires[i][0]]= true;
+        visited[wires[i][1]]= true;
+        int a = bfs(wires[i][0]);
+        int b = bfs(wires[i][1]);
+        answer = min(answer,abs(a-b));
     }
     
     return answer;
