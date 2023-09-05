@@ -2,24 +2,24 @@
 #include <vector>
 
 using namespace std;
+int n, target,answer;
+vector<int> numbers;
 
-int answer = 0;
-int tar;
-
-void dfs(vector<int> &nums,int index, int total){
-    if(index == nums.size()){
-        if(total == tar){
+void dfs(int index, int total){
+    if(index == n){
+        if(total == target)
             answer++;
-        }
         return;
     }
-    dfs(nums,index+1,total + nums[index]);
-    dfs(nums,index+1,total - nums[index]);
     
+    dfs(index+1, total + numbers[index]);
+    dfs(index+1, total - numbers[index]);
 }
 
-int solution(vector<int> numbers, int target) {
-    tar = target;
-    dfs(numbers,0,0);
+int solution(vector<int> numbers_, int target_) {
+    target = target_;
+    numbers = numbers_;
+    n = numbers.size();
+    dfs(0,0);
     return answer;
 }
